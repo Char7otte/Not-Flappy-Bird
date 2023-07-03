@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://b8wq5dofbtaic"]
+
+[ext_resource type="PackedScene" uid="uid://b1wkqlgodlhkt" path="res://Pipe/pipe.tscn" id="1_2dqg0"]
+[ext_resource type="Script" path="res://GameScene.gd" id="1_w5ss6"]
+[ext_resource type="PackedScene" uid="uid://dqs5at71ejbjv" path="res://Player/player.tscn" id="2_yeu7q"]
+[ext_resource type="PackedScene" uid="uid://nsnlt3qhka2l" path="res://HUD/score_label.tscn" id="3_3jrd3"]
+[ext_resource type="PackedScene" uid="uid://blqcg0ral2yyp" path="res://HUD/game_over_menu.tscn" id="4_nw38u"]
+[ext_resource type="Texture2D" uid="uid://db0xu2a84coho" path="res://Art/4584932-8-bit-sky-clouds-pixels-landscape-artwork-pixel-art.png" id="5_onv7j"]
+[ext_resource type="PackedScene" uid="uid://7t0g4lvyroq0" path="res://HUD/start_game_menu.tscn" id="6_rqylm"]
+
+[node name="GameScene" type="Node2D"]
+script = ExtResource("1_w5ss6")
+
+[node name="Pipe" parent="." instance=ExtResource("1_2dqg0")]
+position = Vector2(848, 576)
+
+[node name="Pipe2" parent="." instance=ExtResource("1_2dqg0")]
+position = Vector2(1648, 568)
+
+[node name="Pipe3" parent="." instance=ExtResource("1_2dqg0")]
+position = Vector2(2448, 568)
+
+[node name="Pipe4" parent="." instance=ExtResource("1_2dqg0")]
+position = Vector2(3248, 568)
+
+[node name="Pipe5" parent="." instance=ExtResource("1_2dqg0")]
+position = Vector2(4048, 568)
+
+[node name="Player" parent="." instance=ExtResource("2_yeu7q")]
+position = Vector2(224, 640)
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(960, 600)
+texture = ExtResource("5_onv7j")
+
+[node name="Game Over Menu" parent="." instance=ExtResource("4_nw38u")]
+visible = false
+
+[node name="Score Display" parent="." instance=ExtResource("3_3jrd3")]
+
+[node name="Start Game Menu" parent="." instance=ExtResource("6_rqylm")]
+visible = false
+offset_left = 520.0
+offset_top = 240.0
+offset_right = 1408.0
+offset_bottom = 816.0
+
+[connection signal="game_over" from="Player" to="." method="_on_player_game_over"]
+[connection signal="quit_button_pressed" from="Game Over Menu" to="." method="_on_game_over_menu_quit_button_pressed"]
+[connection signal="restart_button_pressed" from="Game Over Menu" to="." method="_on_game_over_menu_restart_button_pressed"]
+[connection signal="quit_button_pressed" from="Start Game Menu" to="." method="_on_start_game_menu_quit_button_pressed"]
+[connection signal="start_button_pressed" from="Start Game Menu" to="." method="_on_start_game_menu_start_button_pressed"]

@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3 uid="uid://dqs5at71ejbjv"]
+
+[ext_resource type="Script" path="res://Player/player.gd" id="1_eella"]
+[ext_resource type="Texture2D" uid="uid://dcmqgijyn14oj" path="res://Art/yellowbird-downflap-Sheet-export.png" id="1_jacgc"]
+[ext_resource type="AudioStream" uid="uid://dc3a4cn5y1ok2" path="res://SFX/pipe_hit.mp3" id="3_dhl1r"]
+[ext_resource type="AudioStream" uid="uid://cr2nwjhy4hhf1" path="res://SFX/player_flap.mp3" id="4_52wsd"]
+[ext_resource type="AudioStream" uid="uid://lj7sd6k6w6uq" path="res://SFX/score_get.mp3" id="5_y1dqh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o106f"]
+atlas = ExtResource("1_jacgc")
+region = Rect2(0, 0, 34, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jg60s"]
+atlas = ExtResource("1_jacgc")
+region = Rect2(34, 0, 34, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ein7y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o106f")
+}],
+"loop": true,
+"name": &"wings_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jg60s")
+}],
+"loop": true,
+"name": &"wings_up",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m637l"]
+radius = 35.0
+height = 98.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_eella")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_ein7y")
+animation = &"wings_up"
+offset = Vector2(0, -12)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -36)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_m637l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -36)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_m637l")
+
+[node name="PipeHit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_dhl1r")
+volume_db = -16.864
+
+[node name="PlayerFlap" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_52wsd")
+
+[node name="ScoreGet" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_y1dqh")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
